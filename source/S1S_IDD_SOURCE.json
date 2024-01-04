@@ -1,0 +1,113 @@
+{
+    "id": "837f0a58-3d91-48b8-a847-97c1168be54d",
+    "connectorTypeString": "SAP_CLOUD_IDENTITY",
+    "accessMode": "READ",
+    "destinationName": "IAS_IDD",
+    "alias": "SAC teams integration POC",
+    "relatedSystems": [],
+    "gitAllowedExpressions": [],
+    "gitDisallowedExpressions": [],
+    "emailSubscribers": [],
+    "name": "S1S_IDD_SOURCE",
+    "tenantId": "f1ed8944-d58d-442b-8056-01899e552f1c",
+    "state": "ENABLED",
+    "systemManagementType": "CUSTOMER_MANAGED",
+    "properties": {
+        "ips.failed.request.retry.attempts": "2",
+        "ias.api.version": "2",
+        "ias.group.filter": "displayName eq \"S1S_IDD:TEAMS_IDM_INTEGRATION_1\" or displayName eq \"S1S_IDD:TEAMS_IDM_INTEGRATION_2\"",
+        "ias.user.filter": "userName eq \"C5353280\"",
+        "ips.failed.request.retry.attempts.interval": "60",
+        "ips.trace.failed.entity.content": "true"
+    },
+    "automaticOutboundCertificateRenew": false,
+    "fromImport": false,
+    "encryptedProperties": {},
+    "transformation": {
+        "user": {
+            "mappings": [
+                {
+                    "sourcePath": "$",
+                    "targetPath": "$"
+                },
+                {
+                    "sourcePath": "$.id",
+                    "targetVariable": "entityIdSourceSystem"
+                },
+                {
+                    "sourcePath": "$.userName",
+                    "targetPath": "$.userName",
+                    "correlationAttribute": true
+                },
+                {
+                    "sourcePath": "$.emails[?(@.primary== true)].value",
+                    "optional": true,
+                    "correlationAttribute": true
+                },
+                {
+                    "sourcePath": "$.name.givenName",
+                    "optional": true,
+                    "targetPath": "$.name.givenName"
+                },
+                {
+                    "sourcePath": "$.name.familyName",
+                    "optional": true,
+                    "targetPath": "$.name.familyName"
+                },
+                {
+                    "targetPath": "$.roles",
+                    "type": "remove"
+                },
+                {
+                    "targetPath": "$.id",
+                    "type": "remove"
+                },
+                {
+                    "targetPath": "$.meta",
+                    "type": "remove"
+                }
+            ]
+        },
+        "group": {
+            "ignore": false,
+            "mappings": [
+                {
+                    "sourcePath": "$",
+                    "targetPath": "$"
+                },
+                {
+                    "sourcePath": "$.displayName",
+                    "targetVariable": "entityIdSourceSystem",
+                    "functions": [
+                        {
+                            "function": "substring",
+                            "beginIndex": "8"
+                        }
+                    ]
+                },
+                {
+                    "targetPath": "$.id",
+                    "type": "remove"
+                },
+                {
+                    "sourcePath": "$.displayName",
+                    "targetPath": "$.id",
+                    "functions": [
+                        {
+                            "function": "substring",
+                            "beginIndex": "8"
+                        }
+                    ]
+                },
+                {
+                    "targetPath": "$.meta",
+                    "type": "remove"
+                }
+            ]
+        }
+    },
+    "gitFetchAllowed": false,
+    "transformationChanged": true,
+    "readTransformationChanged": false,
+    "writeTransformationChanged": false
+}

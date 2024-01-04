@@ -1,0 +1,13 @@
+#Password=<< Existing password/certificate removed on export >>
+#
+#Thu Dec 07 13:42:53 UTC 2023
+Description=SAC teams Integration POC
+Type=HTTP
+Authentication=BasicAuthentication
+Name=S1D_IDD
+scim.api.csrf.protection=disabled
+ProxyType=Internet
+URL=https\://sap-validation.eu10.sapanalytics.cloud
+User=sb-9d1698f1-eb88-40b8-a405-d55e914d22c3\!b12915|client\!b3650
+OAuth2TokenServiceURL=https\://sap-validation.authentication.eu10.hana.ondemand.com/oauth/token
+csrf.token.path=/api/v1/scim/Users?count\=1

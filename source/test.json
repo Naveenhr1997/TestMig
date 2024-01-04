@@ -1,0 +1,110 @@
+{
+    "id": "5d324358-4f71-4a2a-a858-33cc25390195",
+    "connectorTypeString": "SAP_CLOUD_IDENTITY",
+    "accessMode": "READ",
+    "destinationName": "IAS_IDD",
+    "alias": "Repo Services Dev tenant",
+    "relatedSystems": [],
+    "gitAllowedExpressions": [],
+    "gitDisallowedExpressions": [],
+    "emailSubscribers": [],
+    "name": "01_ERS_IDD_SOURCE",
+    "tenantId": "f1ed8944-d58d-442b-8056-01899e552f1c",
+    "state": "ENABLED",
+    "systemManagementType": "CUSTOMER_MANAGED",
+    "properties": {
+        "ips.failed.request.retry.attempts": "2",
+        "ips.full.read.force.count": "5",
+        "ias.api.version": "2",
+        "ias.group.filter": "displayName eq \"ERS_IDD:SIGNIFY_DEV_XYZ_ADMIN\"",
+        "ias.user.filter": "userName eq \"C5353868\" or userName eq \"C9999899\"",
+        "ips.failed.request.retry.attempts.interval": "60",
+        "ips.trace.failed.entity.content": "true"
+    },
+    "fromImport": false,
+    "transformation": {
+        "user": {
+            "mappings": [
+                {
+                    "sourcePath": "$.id",
+                    "targetPath": "$.id",
+                    "targetVariable": "entityIdSourceSystem"
+                },
+                {
+                    "sourcePath": "$.userName",
+                    "targetPath": "$.userName",
+                    "correlationAttribute": true
+                },
+                {
+                    "sourcePath": "$.name.givenName",
+                    "optional": true,
+                    "targetPath": "$.name.givenName"
+                },
+                {
+                    "sourcePath": "$.name.familyName",
+                    "optional": true,
+                    "targetPath": "$.name.familyName"
+                },
+                {
+                    "sourcePath": "$.emails[*].value",
+                    "preserveArrayWithSingleElement": true,
+                    "targetPath": "$.emails[?(@.value)]"
+                },
+                {
+                    "sourcePath": "$.emails[?(@.primary== true)].value",
+                    "correlationAttribute": true
+                },
+                {
+                    "sourcePath": "$.active",
+                    "optional": true,
+                    "targetPath": "$.active"
+                },
+                {
+                    "sourcePath": "$.phoneNumbers",
+                    "preserveArrayWithSingleElement": true,
+                    "optional": true,
+                    "targetPath": "$.phoneNumbers"
+                },
+                {
+                    "sourcePath": "$.displayName",
+                    "optional": true,
+                    "targetPath": "$.displayName"
+                },
+                {
+                    "sourcePath": "$.groups",
+                    "preserveArrayWithSingleElement": true,
+                    "optional": true,
+                    "targetPath": "$.groups"
+                },
+                {
+                    "condition": "$.displayName EMPTY true",
+                    "targetPath": "$.displayName",
+                    "type": "remove"
+                }
+            ]
+        },
+        "group": {
+            "mappings": [
+                {
+                    "sourcePath": "$.id",
+                    "targetVariable": "entityIdSourceSystem"
+                },
+                {
+                    "sourcePath": "$.displayName",
+                    "targetPath": "$.displayName"
+                },
+                {
+                    "sourcePath": "$.members",
+                    "preserveArrayWithSingleElement": true,
+                    "optional": true,
+                    "targetPath": "$.members"
+                }
+            ]
+        }
+    },
+    "encryptedProperties": {},
+    "gitFetchAllowed": false,
+    "transformationChanged": true,
+    "readTransformationChanged": false,
+    "writeTransformationChanged": false
+}
